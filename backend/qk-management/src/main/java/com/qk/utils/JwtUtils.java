@@ -27,8 +27,20 @@ public class JwtUtils {
 
     /**
      * 秘钥，HS256 算法要求长度不小于 256 bit（32 字节）
+     *
+     * <p>优先从环境变量 JWT_SECRET 读取，未设置时回落到开发默认值。
+     * 密钥硬编码在代码里等于把身份伪造的钥匙公开，所以正式环境必须用环境变量注入。
      */
-    private static final String SECRET_KEY = "qingke-guanjia-jwt-secret-key-cWluZ2tl-2026";
+    private static final String SECRET_KEY = envOrDefault(
+            "JWT_SECRET", "qingke-guanjia-jwt-secret-key-cWluZ2tl-2026");
+
+    private static String envOrDefault(String name, String defaultValue) {
+        String v = System.getenv(name);
+        if (v == null || v.isBlank()) {
+            v = System.getProperty(name);
+        }
+        return (v == null || v.isBlank()) ? defaultValue : v;
+    }
 
     private static final SecretKey KEY = Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
 
