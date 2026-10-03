@@ -1,0 +1,8 @@
+node_modules/
+dist/
+*.local
+
+# 编辑器
+.idea/
+.vscode/
+.DS_Store
