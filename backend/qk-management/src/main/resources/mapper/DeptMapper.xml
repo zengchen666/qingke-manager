@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qk.mapper.DeptMapper">
+
+    <!-- 条件查询部门列表：名称模糊匹配 + 状态精确匹配，按最后修改时间倒序 -->
+    <select id="list" resultType="com.qk.entity.Dept">
+        select * from dept
+        <where>
+            <if test="name != null and name != ''">
+                name like concat('%', #{name}, '%')
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+        order by update_time desc
+    </select>
+
+    <!-- 修改部门信息
+         使用动态SQL：如果用固定字段的 UPDATE，未传递的字段会被更新为 null -->
+    <update id="updateDept" parameterType="com.qk.entity.Dept">
+        UPDATE dept
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+</mapper>

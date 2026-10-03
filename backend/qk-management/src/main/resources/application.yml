@@ -1,0 +1,38 @@
+# 项目名称
+spring:
+  application:
+    name: qk-management
+
+  # 数据库配置
+  datasource:
+    url: jdbc:mysql://localhost:3306/qk?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 123456
+
+server:
+  port: 8080
+
+# mybatis-plus 相关配置
+mybatis-plus:
+  configuration:
+    # 开启 mybatis 的日志输出（SQL 打印到控制台）
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    # 开启 mybatis 的驼峰映射
+    map-underscore-to-camel-case: true
+  # xml 映射文件路径
+  mapper-locations: classpath:mapper/*.xml
+  global-config:
+    db-config:
+      # 主键策略：数据库自增
+      id-type: auto
+
+# PageHelper 分页插件配置
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+
+logging:
+  level:
+    com.qk: debug
